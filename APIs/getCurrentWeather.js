@@ -1,8 +1,8 @@
+import { APPID } from "../common/constants";
+
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const dotenv = require("dotenv");
-dotenv.config();
 
 
 router.post("/getCurrentWeather", async (req, res) => {

@@ -12,7 +12,6 @@ router.post("/getCurrentWeather", async (req, res) => {
       `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${APPID}`
     );
     const currentWeatherData = currentWeather.data;
-    console.log("🚀 ~ file: currentWeatherRoute.js ~ line 12 ~ router.post ~ currentWeatherData", currentWeatherData)
     res.send({
         "temperature": currentWeatherData.main.temp,
         "weather": currentWeatherData.weather[0].main,

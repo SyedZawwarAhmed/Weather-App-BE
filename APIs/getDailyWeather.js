@@ -1,10 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const axios = require("axios");
-const dotenv = require("dotenv");
-dotenv.config();
-
-const APPID = process.env.APPID;
 
 router.post("/getDailyWeather", async (req, res) => {
   try {
@@ -24,7 +20,7 @@ router.post("/getDailyWeather", async (req, res) => {
     }
 
     const dailyWeatherData = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=${APPID}&units=metric`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=39cd5eb32b4a2c8bb9d707f7f0846c6a&units=metric`
     );
 
     const currentHourForecast = dailyWeatherData.data.list.filter(day => parseInt(day.dt_txt.split(" ")[1].split(":")[0]) === currentHour)

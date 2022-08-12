@@ -1,4 +1,4 @@
-export class getDailyWeatherResponse {
+class getDailyWeatherResponse {
   temperature;
   weather;
   weatherIcon;
@@ -14,3 +14,5 @@ export class getDailyWeatherResponse {
     this.time = time;
   }
 }
+
+module.exports = getDailyWeatherResponse

@@ -1,4 +1,4 @@
-export const weekday = [
+const weekday = [
   "Sunday",
   "Monday",
   "Tuesday",

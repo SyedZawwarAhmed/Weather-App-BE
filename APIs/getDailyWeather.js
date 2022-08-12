@@ -1,4 +1,4 @@
-import { threeHours, APPID } from "../common/constants";
+import { APPID, FORECAST_URL, threeHours } from "../common/constants";
 import { weekday } from "../common/enums";
 import { getDailyWeatherResponse } from "../DTOs/getDailyWeatherResponse";
 
@@ -21,9 +21,12 @@ router.post("/getDailyWeather", async (req, res) => {
       }
     }
 
-    const dailyWeatherData = await axios.get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&APPID=${APPID}&units=metric`
-    );
+    const options = {
+      method: 'GET',
+      url: FORECAST_URL,
+      params: {q: city, APPID: APPID, units: 'metric'}
+    }
+    const dailyWeatherData = await axios.request(options);
 
     const currentHourForecast = dailyWeatherData.data.list.filter(
       (day) => parseInt(day.dt_txt.split(" ")[1].split(":")[0]) === currentHour

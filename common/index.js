@@ -1,9 +1,7 @@
 const express = require("express");
 const app = express();
 const port = 5000;
-const citiesRoute = require("./getCities");
-const dailyWeatherRoute = require("./getDailyWeather");
-const currentWeatherRoute = require("./getCurrentWeather");
+const getDailyWeather = require("./getDailyWeather");
 const doetenv = require("dotenv");
 doetenv.config();
 
@@ -12,6 +10,4 @@ app.listen(port, () => {
 });
 
 app.use(express.json());
-app.use("/api", citiesRoute);
-app.use("/api", dailyWeatherRoute);
-app.use("/api", currentWeatherRoute);
+app.use("/api", getDailyWeather);

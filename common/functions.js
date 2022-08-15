@@ -1,7 +1,7 @@
 const getHourDivisibleByThree = (date) => {
   /**
   The purpose of this function is to determine which hour is nearest to the hour in which the funciton is called.
-*/
+  */
   const hours = date.getHours();
   const remainder = hours % 3;
   let currentHour = hours;

@@ -3,26 +3,31 @@ const router = express.Router();
 const axios = require("axios");
 
 const getDailyWeatherResponse = require("../DTOs/getDailyWeatherResponse");
-const {APPID} = require("../common/constants");
-const {FORECAST_URL} = require("../common/constants");
-const {threeHours} = require("../common/constants");
+const { APPID } = require("../common/constants");
+const { FORECAST_URL } = require("../common/constants");
+const { threeHours } = require("../common/constants");
 const weekday = require("../common/enums");
 
+const getCurrentHour = () => {
+  const date = new Date();
+  const hours = date.getHours();
+  let minDifference = 3;
+  let currentHour = 0;
+  for (const threeHour of threeHours) {
+    const difference = Math.abs(threeHour - hours);
+    if (difference < minDifference) {
+      minDifference = difference;
+      currentHour = threeHour;
+    }
+  }
+  return currentHour;
+};
+
 router.post("/getDailyWeather", async (req, res) => {
-  console.log("hello");
   try {
     const { city } = req.body;
-    const date = new Date();
-    const hours = date.getHours();
-    let minDifference = 3;
-    let currentHour = 0;
-    for (const threeHour of threeHours) {
-      const difference = Math.abs(threeHour - hours);
-      if (difference < minDifference) {
-        minDifference = difference;
-        currentHour = threeHour;
-      }
-    }
+
+    const currentHour = getCurrentHour();
 
     const options = {
       method: "GET",

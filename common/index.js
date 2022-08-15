@@ -1,13 +1,4 @@
-const express = require("express");
-const app = express();
-const port = 5000;
-const doetenv = require("dotenv");
-doetenv.config();
-const getDailyWeather = require("../APIs/getDailyWeather");
+const { APPID, FORECAST_URL } = require("./constants");
+const weekday = require("./enums");
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
-});
-
-app.use(express.json());
-app.use("/api", getDailyWeather);
+module.exports = { APPID, FORECAST_URL, weekday };

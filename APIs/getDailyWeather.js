@@ -10,7 +10,7 @@ router.post("/getDailyWeather", async (req, res) => {
   try {
     const { city } = req.body;
 
-    const currentHour = getHourDivisibleByThree();
+    const currentHour = getHourDivisibleByThree(new Date());
 
     const options = {
       method: "GET",

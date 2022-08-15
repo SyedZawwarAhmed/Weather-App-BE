@@ -4,20 +4,13 @@ const axios = require("axios");
 
 const { getDailyWeatherResponse } = require("../DTOs/index");
 const { APPID , FORECAST_URL, weekday } = require("../common/index");
-
-const getCurrentHour = () => {
-  const date = new Date();
-  const hours = date.getHours();
-  const remainder = hours % 3;
-  const currentHour = remainder === 0 ? hours : remainder === 1 ? hours - 1 : hours + 1;
-  return currentHour;
-};
+const getHourDivisibleByThree = require("../common/functions");
 
 router.post("/getDailyWeather", async (req, res) => {
   try {
     const { city } = req.body;
 
-    const currentHour = getCurrentHour();
+    const currentHour = getHourDivisibleByThree();
 
     const options = {
       method: "GET",

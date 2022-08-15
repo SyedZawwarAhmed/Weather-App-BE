@@ -2,24 +2,14 @@ const express = require("express");
 const router = express.Router();
 const axios = require("axios");
 
-const getDailyWeatherResponse = require("../DTOs/getDailyWeatherResponse");
-const { APPID } = require("../common/constants");
-const { FORECAST_URL } = require("../common/constants");
-const { threeHours } = require("../common/constants");
-const weekday = require("../common/enums");
+const { getDailyWeatherResponse } = require("../DTOs/index");
+const { APPID , FORECAST_URL, weekday } = require("../common/index");
 
 const getCurrentHour = () => {
   const date = new Date();
   const hours = date.getHours();
-  let minDifference = 3;
-  let currentHour = 0;
-  for (const threeHour of threeHours) {
-    const difference = Math.abs(threeHour - hours);
-    if (difference < minDifference) {
-      minDifference = difference;
-      currentHour = threeHour;
-    }
-  }
+  const remainder = hours % 3;
+  const currentHour = remainder === 0 ? hours : remainder === 1 ? hours - 1 : hours + 1;
   return currentHour;
 };
 
@@ -36,9 +26,12 @@ router.post("/getDailyWeather", async (req, res) => {
     };
     const dailyWeatherData = await axios.request(options);
 
-    const currentHourForecast = dailyWeatherData.data.list.filter(
-      (day) => parseInt(day.dt_txt.split(" ")[1].split(":")[0]) === currentHour
-    );
+    const currentHourForecast = dailyWeatherData.data.list.filter((day) => {
+      const currentHourResponse = parseInt(
+        day.dt_txt.split(" ")[1].split(":")[0]
+      );
+      return currentHourResponse === currentHour;
+    });
     res.send(
       currentHourForecast.map((day) => {
         const temperature = day.main.temp;

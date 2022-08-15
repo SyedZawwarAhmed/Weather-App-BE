@@ -31,9 +31,8 @@ router.post("/getDailyWeather", async (req, res) => {
     };
     const dailyWeatherData = await axios.request(options);
 
-    const currentHourReponse = parseInt(day.dt_txt.split(" ")[1].split(":")[0]);
     const currentHourForecast = dailyWeatherData.data.list.filter(
-      (day) => currentHourReponse === currentHour
+      (day) => parseInt(day.dt_txt.split(" ")[1].split(":")[0]) === currentHour
     );
     res.send(
       currentHourForecast.map((day) => {

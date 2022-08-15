@@ -9,3 +9,5 @@ const weekday = [
 ];
 
 Object.freeze(weekday);
+
+module.exports = weekday;

@@ -15,4 +15,4 @@ class getDailyWeatherResponse {
   }
 }
 
-module.exports = getDailyWeatherResponse
+module.exports = getDailyWeatherResponse;

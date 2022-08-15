@@ -1,5 +1,4 @@
-const getHourDivisibleByThree = () => {
-  const date = new Date();
+const getHourDivisibleByThree = (date) => {
   const hours = date.getHours();
   const remainder = hours % 3;
   const currentHour =

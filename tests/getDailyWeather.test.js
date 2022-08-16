@@ -1,8 +1,6 @@
 const request = require("supertest");
 const { baseURL } = require("./constants");
 
-const URL = baseURL;
-
 describe("GET /getDailyWeather", () => {
   const requestBody = { city: "Karachi" };
 

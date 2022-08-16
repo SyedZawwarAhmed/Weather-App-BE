@@ -1,11 +1,11 @@
 const request = require("supertest");
-const { baseURL } = require("./constants");
+const { BASE_URL } = require("../common/constants");
 
 describe("GET /getDailyWeather", () => {
   const requestBody = { city: "Karachi" };
 
   it("should return 200", async () => {
-    const response = await request(baseURL)
+    const response = await request(BASE_URL)
       .post("/api/getDailyWeather")
       .send(requestBody);
     expect(response.statusCode).toBe(200);

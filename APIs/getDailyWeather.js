@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require("axios");
 
 const { getDailyWeatherResponse } = require("../DTOs/index");
-const { APPID , FORECAST_URL, weekday } = require("../common/index");
+const { APPID, FORECAST_URL, weekday } = require("../common/index");
 const getHourDivisibleByThree = require("../common/functions");
 
 router.post("/getDailyWeather", async (req, res) => {
@@ -25,26 +25,31 @@ router.post("/getDailyWeather", async (req, res) => {
       );
       return currentHourResponse === currentHour;
     });
-    res.send(
-      currentHourForecast.map((day) => {
-        const temperature = day.main.temp;
-        const weather = day.weather[0].main;
-        const weatherIcon = day.weather[0].icon;
-        const date = day.dt_txt.split(" ")[0];
-        const currentDay = weekday[new Date(day.dt_txt.split(" ")[0]).getDay()];
-        const time = day.dt_txt.split(" ")[1];
-        return new getDailyWeatherResponse(
-          temperature,
-          weather,
-          weatherIcon,
-          date,
-          currentDay,
-          time
-        );
-      })
-    );
+    const data = currentHourForecast.map((day) => {
+      const temperature = day.main.temp;
+      const weather = day.weather[0].main;
+      const weatherIcon = day.weather[0].icon;
+      const date = day.dt_txt.split(" ")[0];
+      const currentDay = weekday[new Date(day.dt_txt.split(" ")[0]).getDay()];
+      const time = day.dt_txt.split(" ")[1];
+      return new getDailyWeatherResponse(
+        temperature,
+        weather,
+        weatherIcon,
+        date,
+        currentDay,
+        time
+      );
+    });
+    res.status(200).json({
+      data,
+      error: null,
+    });
   } catch (error) {
-    res.send(error.message);
+    res.json({
+      data: null,
+      error: error,
+    });
   }
 });
 

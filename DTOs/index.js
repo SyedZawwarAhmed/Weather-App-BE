@@ -1,3 +1,7 @@
 const getDailyWeatherResponse = require("./getDailyWeatherResponse");
+const getDailyWeatherExternalAPIResponse = require("./getDailyWeatherExternalAPIResponse");
 
-module.exports = { getDailyWeatherResponse };
+module.exports = {
+  getDailyWeatherResponse,
+  getDailyWeatherExternalAPIResponse,
+};

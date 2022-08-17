@@ -1,8 +1,11 @@
 const axios = require("axios");
-const { weekday } = require("../common");
-const { APPID, FORECAST_URL } = require("../common/constants");
-const getHourDivisibleByThree = require("../common/functions");
-const { getDailyWeatherResponse } = require("../DTOs");
+const {
+  APPID,
+  FORECAST_URL,
+  weekday,
+  getHourDivisibleByThree,
+} = require("../common/index");
+const { getDailyWeatherExternalAPIResponse } = require("../DTOs/index");
 
 class WeatherExternalAPI {
   FORECAST_URL;
@@ -23,27 +26,28 @@ class WeatherExternalAPI {
     };
     const dailyWeatherData = await axios.request(options);
     const currentHourForecast = dailyWeatherData.data.list.filter((day) => {
-        const currentHourResponse = parseInt(
-          day.dt_txt.split(" ")[1].split(":")[0]
-        );
-        return currentHourResponse === this.currentHour;
-      });
-      const data = currentHourForecast.map((day) => {
-        const temperature = day.main.temp;
-        const weather = day.weather[0].main;
-        const weatherIcon = day.weather[0].icon;
-        const date = day.dt_txt.split(" ")[0];
-        const currentDay = this.weekday[new Date(day.dt_txt.split(" ")[0]).getDay()];
-        const time = day.dt_txt.split(" ")[1];
-        return new getDailyWeatherResponse(
-          temperature,
-          weather,
-          weatherIcon,
-          date,
-          currentDay,
-          time
-        );
-      });
+      const currentHourResponse = parseInt(
+        day.dt_txt.split(" ")[1].split(":")[0]
+      );
+      return currentHourResponse === this.currentHour;
+    });
+    const data = currentHourForecast.map((day) => {
+      const temperature = day.main.temp;
+      const weather = day.weather[0].main;
+      const weatherIcon = day.weather[0].icon;
+      const date = day.dt_txt.split(" ")[0];
+      const currentDay =
+        this.weekday[new Date(day.dt_txt.split(" ")[0]).getDay()];
+      const time = day.dt_txt.split(" ")[1];
+      return new getDailyWeatherExternalAPIResponse(
+        temperature,
+        weather,
+        weatherIcon,
+        date,
+        currentDay,
+        time
+      );
+    });
     return data;
   }
 }

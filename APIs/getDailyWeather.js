@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require("axios");
 
 const { getDailyWeatherResponse } = require("../DTOs/index");
-const { APPID, FORECAST_URL, weekday } = require("../common/index");
+const { weekday } = require("../common/index");
 const getHourDivisibleByThree = require("../common/functions");
 const { WeatherExternalAPI } = require("../external_APIs/WeatherExternalAPI");
 
@@ -13,7 +13,8 @@ router.post("/getDailyWeather", async (req, res) => {
 
     const currentHour = getHourDivisibleByThree(new Date());
 
-    const dailyWeatherData = await WeatherExternalAPI.getDailyWeather(FORECAST_URL, city, APPID);
+    const weatherExternalAPI = new WeatherExternalAPI();
+    const dailyWeatherData = await weatherExternalAPI.getDailyWeather(city);
 
     const currentHourForecast = dailyWeatherData.data.list.filter((day) => {
       const currentHourResponse = parseInt(

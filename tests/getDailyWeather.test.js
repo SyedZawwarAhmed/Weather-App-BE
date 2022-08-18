@@ -1,29 +1,42 @@
 const request = require("supertest");
-const { BASE_URL } = require("../common/constants");
+const { BASE_URL } = require("../common/index");
+const axios = require("axios");
+jest.mock("axios");
 
 describe("GET /getDailyWeather", () => {
   const requestBody = { city: "Karachi" };
 
-  it("should return 200", async () => {
-    const response = await request(BASE_URL)
-      .post("/api/getDailyWeather")
-      .send(requestBody);
-    expect(response.statusCode).toBe(200);
-    expect(response.body.error).toBe(null);
-  });
+  it("should return data of length 3" , async () => {
+    axios.post.mockResolvedValue({
+      data: [
+        {
+          temperature: 28.5,
+          weather: "Clouds",
+          weatherIcon: "04n",
+          date: "2022-08-17",
+          day: "Wednesday",
+          time: "15:00:00",
+        },
+        {
+          temperature: 26.77,
+          weather: "Rain",
+          weatherIcon: "10n",
+          date: "2022-08-18",
+          day: "Thursday",
+          time: "15:00:00",
+        },
+        {
+          temperature: 27.28,
+          weather: "Rain",
+          weatherIcon: "10n",
+          date: "2022-08-19",
+          day: "Friday",
+          time: "15:00:00",
+        },
+      ],
+    });
 
-  it("should return Daily weather data", async () => {
-    const response = await request(baseURL)
-      .post("/api/getDailyWeather")
-      .send(requestBody);
-    expect(response.body.data.length > 0).toBe(true);
-  });
-
-  const incorrectRequestBody = { city: "Karach" };
-  it("should throw an error if the city name is incorrect.", async () => {
-    const response = await request(baseURL)
-      .post("/api/getDailyWeather")
-      .send(incorrectRequestBody);
-    expect(response.body.error).not.toBe(null);
+    const response = await axios.post(`${BASE_URL}/api/getDailyWeather`, requestBody)
+    expect(response.data.length === 3).toBe(true);
   });
 });

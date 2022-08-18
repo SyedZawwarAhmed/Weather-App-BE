@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 
 const { WeatherExternalAPI } = require("../external_APIs/WeatherExternalAPI");
 const { getDailyWeatherResponse } = require("../DTOs");
@@ -11,7 +10,17 @@ router.post("/getDailyWeather", async (req, res) => {
 
     const weatherExternalAPI = new WeatherExternalAPI();
     const data = await weatherExternalAPI.getDailyWeather(city);
-    const dailyWeatherData = new getDailyWeatherResponse(data);
+    const dailyWeatherData = data.map(
+      (day) =>
+        new getDailyWeatherResponse(
+          day.temperature,
+          day.weather,
+          day.weatherIcon,
+          day.date,
+          day.day,
+          day.time
+        )
+    );
 
     res.status(200).json({
       data: dailyWeatherData,

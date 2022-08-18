@@ -1,8 +1,7 @@
 /**
  * The purpose of this function is to determine which hour is nearest to the hour in which the funciton is called.
  */
-function getHourDivisibleByThree (date) {
-  const hours = date.getHours();
+function getHourDivisibleByThree (hours) {
   const remainder = hours % 3;
   let currentHour = hours;
 
@@ -13,6 +12,7 @@ function getHourDivisibleByThree (date) {
     if (isCurrentHourNearestToNextHour) currentHour += 1;
     else currentHour -= 1;
   }
+  currentHour = currentHour === 24 ? 0 : currentHour
   return currentHour;
 };
 

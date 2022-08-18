@@ -15,7 +15,7 @@ class WeatherExternalAPI {
   constructor() {
     this.FORECAST_URL = FORECAST_URL;
     this.APPID = APPID;
-    this.currentHour = getHourDivisibleByThree(new Date());
+    this.currentHour = getHourDivisibleByThree(new Date().getHours());
     this.weekday = weekday;
   }
   async getDailyWeather(city) {

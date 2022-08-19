@@ -16,7 +16,7 @@ class WeatherExternalAPI {
     this.APPID = APPID;
     this.weekday = weekday;
   }
-  async getDailyWeather(city, currentHour) {
+  async getDailyWeather(city) {
     const options = {
       method: "GET",
       url: this.FORECAST_URL,
@@ -27,6 +27,7 @@ class WeatherExternalAPI {
       const currentHourResponse = parseInt(
         day.dt_txt.split(" ")[1].split(":")[0]
       );
+      const currentHour = getHourDivisibleByThree(new Date().getHours());
       return currentHourResponse === currentHour;
     });
     const data = currentHourForecast.map((day) => {

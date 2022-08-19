@@ -3,14 +3,12 @@ const router = express.Router();
 
 const { WeatherExternalAPI } = require("../external_APIs");
 const { getDailyWeatherResponse } = require("../DTOs");
-const { getHourDivisibleByThree } = require("../common");
 
 router.post("/getDailyWeather", async (req, res) => {
   try {
     const { city } = req.body;
-    const currentHour = getHourDivisibleByThree(new Date().getHours());
     const weatherExternalAPI = new WeatherExternalAPI();
-    const data = await weatherExternalAPI.getDailyWeather(city, currentHour);
+    const data = await weatherExternalAPI.getDailyWeather(city);
     const dailyWeatherData = data.map(
       (day) =>
         new getDailyWeatherResponse(

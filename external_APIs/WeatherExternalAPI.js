@@ -10,15 +10,13 @@ const { getDailyWeatherExternalAPIResponse } = require("../DTOs/index");
 class WeatherExternalAPI {
   FORECAST_URL;
   APPID;
-  currentHour;
   weekday;
   constructor() {
     this.FORECAST_URL = FORECAST_URL;
     this.APPID = APPID;
-    this.currentHour = getHourDivisibleByThree(new Date().getHours());
     this.weekday = weekday;
   }
-  async getDailyWeather(city) {
+  async getDailyWeather(city, currentHour) {
     const options = {
       method: "GET",
       url: this.FORECAST_URL,
@@ -29,7 +27,7 @@ class WeatherExternalAPI {
       const currentHourResponse = parseInt(
         day.dt_txt.split(" ")[1].split(":")[0]
       );
-      return currentHourResponse === this.currentHour;
+      return currentHourResponse === currentHour;
     });
     const data = currentHourForecast.map((day) => {
       const temperature = day.main.temp;

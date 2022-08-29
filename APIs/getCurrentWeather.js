@@ -1,37 +1,34 @@
-import { APPID } from "../common/constants";
-import { getCurrentWeatherResponse } from "../DTOs/getCurrentWeatherResponse";
+const { getCurrentWeatherResponse } = require("../DTOs");
+const { WeatherExternalAPI } = require("../external_APIs");
 
 const express = require("express");
 const router = express.Router();
-const axios = require("axios");
 
 router.post("/getCurrentWeather", async (req, res) => {
   try {
     const { city } = req.body;
-    const currentWeather = await axios.get(
-      `http://api.openweathermap.org/data/2.5/weather?q=${city}&APPID=${APPID}`
-    );
-    const currentWeatherData = currentWeather.data;
-    const temperature = currentWeatherData.main.temp;
-    const weather = currentWeatherData.weather[0].main;
-    const weatherIcon = currentWeatherData.weather[0].icon;
-    const date = currentWeatherData.dt_txt.split(" ")[0];
-    const day =
-      currentWeatherData.weekday[new Date(day.dt_txt.split(" ")[0]).getDay()];
-    const time = currentWeatherData.dt_txt.split(" ")[1];
+    const weatherExternalAPI = new WeatherExternalAPI();
+    const data = await weatherExternalAPI.getCurrentWeather(city);
+
     const response = new getCurrentWeatherResponse(
-      temperature,
-      weather,
-      weatherIcon,
-      date,
-      day,
-      time
+      data.temperature,
+      data.weather,
+      data.weatherIcon,
+      data.date,
+      data.day,
+      data.time,
+      data.feelsLike,
+      data.humidity
     );
-    res.send({
-      response,
+    res.status(200).json({
+      data: response,
+      error: null,
     });
   } catch (error) {
-    res.send(error.message);
+    res.json({
+      data: null,
+      error: error.message,
+    });
   }
 });
 

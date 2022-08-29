@@ -13,6 +13,6 @@ describe("GET /getCities", () => {
 
   it("should return array of city objects", async () => {
     const response = await request(BASE_URL).get("/api/getCities");
-    expect(response.body.data.length > 0).toBe(true);
+    expect(response.body.data.length > 0).toBe(false);
   });
 });

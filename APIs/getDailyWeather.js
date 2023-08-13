@@ -26,10 +26,7 @@ router.post("/getDailyWeather", async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.json({
-      data: null,
-      error: error.message,
-    });
+    next(error)
   }
 });
 

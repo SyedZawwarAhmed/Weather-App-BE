@@ -4,7 +4,7 @@ const { WeatherExternalAPI } = require("../external_APIs");
 const express = require("express");
 const router = express.Router();
 
-router.post("/getCurrentWeather", async (req, res) => {
+router.post("/getCurrentWeather", async (req, res, next) => {
   try {
     const { city } = req.body;
     const weatherExternalAPI = new WeatherExternalAPI();
@@ -25,10 +25,7 @@ router.post("/getCurrentWeather", async (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.json({
-      data: null,
-      error: error.message,
-    });
+    next(error)
   }
 });
 

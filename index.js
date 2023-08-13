@@ -18,3 +18,10 @@ app.use(express.json());
 app.use("/api", getDailyWeather);
 app.use("/api", getCities)
 app.use("/api", getCurrentWeather);
+
+app.use((err, req, res, next) => {
+  console.error(err);
+
+  // Handle other errors
+  res.status(err.response.data.cod).json({ error: err.response.data.message });
+});

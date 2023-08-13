@@ -3,7 +3,7 @@ const router = express.Router();
 const { getCitiesResponse } = require("../DTOs");
 const { response } = require("express");
 
-router.get("/getCities", (req, res) => {
+router.get("/getCities", (req, res, next) => {
   try {
     const cities = require("all-the-cities");
     const citiesData = cities.map((city) => new getCitiesResponse(city.name));
@@ -12,10 +12,7 @@ router.get("/getCities", (req, res) => {
       error: null,
     });
   } catch (error) {
-    res.json({
-      data: null,
-      error: error.message,
-    });
+    next(error)
   }
 });
 

@@ -4,20 +4,20 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index  ",
+    "start": "node index",
     "test": "jest --watch"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ZawwarAhmed/Vend-Weather-Service.git"
+    "url": "git+https://github.com/SyedZawwarAhmed/Weather-App-BE.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ZawwarAhmed/Vend-Weather-Service/issues"
+    "url": "https://github.com/SyedZawwarAhmed/Weather-App-BE/issues"
   },
-  "homepage": "https://github.com/ZawwarAhmed/Vend-Weather-Service#readme",
+  "homepage": "https://github.com/SyedZawwarAhmed/Weather-App-BE#readme",
   "dependencies": {
     "all-the-cities": "^3.1.0",
     "axios": "^0.27.2",
